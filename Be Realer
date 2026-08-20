@@ -1,0 +1,56 @@
+// functions/index.js
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
+admin.initializeApp();
+
+// Runs every day at midnight to set the random alert time
+exports.scheduleDailyBeStudy = functions.pubsub
+  .schedule("0 0 * * *")
+  .onRun(async (context) => {
+    // Generate random hour (10 to 20) and minute (0 to 59)
+    const randomHour = Math.floor(Math.random() * (20 - 10 + 1)) + 10;
+    const randomMinute = Math.floor(Math.random() * 60);
+
+    const now = new Date();
+    const triggerTime = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      randomHour,
+      randomMinute
+    );
+
+    // Save scheduled time to Firestore
+    await admin.firestore().collection("system").doc("todayConfig").set({
+      alertTime: triggerTime,
+      hasTriggered: false,
+    });
+
+    return null;
+  });
+
+// Runs every minute to check if it's time to alert
+exports.checkAndSendAlert = functions.pubsub
+  .schedule("* * * * *")
+  .onRun(async (context) => {
+    const doc = await admin.firestore().collection("system").doc("todayConfig").get();
+    const data = doc.data();
+
+    if (!data || data.hasTriggered) return null;
+
+    const now = new Date();
+    if (now >= data.alertTime.toDate()) {
+      // Send FCM notification to all users
+      const payload = {
+        notification: {
+          title: "⚠️ Time to BeStudying! ⚠️",
+          body: "You have 2 minutes to capture what you're studying right now!",
+        },
+        data: { type: "STUDY_ALERT" },
+      };
+
+      await admin.messaging().sendToTopic("study_alerts", payload);
+      await doc.ref.update({ hasTriggered: true });
+    }
+    return null;
+  });
