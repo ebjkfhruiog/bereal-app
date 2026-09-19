@@ -170,7 +170,7 @@ export default function OnboardingPage() {
                   </Button>
                 )}
               </div>
-              {!showEventForm && <NextButton onClick={() => setStep(2)} secondaryLabel="Skip for now" />}
+              {!showEventForm && <NextButton onClick={() => setStep(2)} secondaryLabel={events.length === 0 ? 'Skip for now' : undefined} />}
             </StepBlock>
           )}
 
@@ -199,7 +199,7 @@ export default function OnboardingPage() {
                   </Button>
                 )}
               </div>
-              {!showTestForm && <NextButton onClick={() => setStep(3)} secondaryLabel="Skip for now" />}
+              {!showTestForm && <NextButton onClick={() => setStep(3)} secondaryLabel={tests.length === 0 ? 'Skip for now' : undefined} />}
             </StepBlock>
           )}
 
