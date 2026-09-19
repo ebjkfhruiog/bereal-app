@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Manrope", "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-50: #f1efff;
+  --color-brand-100: #e5e1fe;
+  --color-brand-200: #cdc5fd;
+  --color-brand-300: #ab9dfa;
+  --color-brand-400: #8b78f7;
+  --color-brand-500: #7c6cf5;
+  --color-brand-600: #5b4fe9;
+  --color-brand-700: #4a3fc4;
+  --color-brand-800: #3b3399;
+  --color-brand-900: #2c2673;
+
+  --color-accent-400: #ff9770;
+  --color-accent-500: #ff7a50;
+  --color-accent-600: #f05a2e;
+
+  --color-ink-50: #f7f7fb;
+  --color-ink-100: #eeeef5;
+  --color-ink-200: #dcdce8;
+  --color-ink-400: #8e8ea3;
+  --color-ink-500: #6c6c83;
+  --color-ink-600: #4d4d63;
+  --color-ink-700: #35354a;
+  --color-ink-800: #212132;
+  --color-ink-900: #14141f;
+
+  --color-mint-500: #22c58b;
+  --color-mint-600: #17a476;
+
+  --shadow-card: 0 1px 2px rgba(20,20,31,0.04), 0 8px 24px -8px rgba(20,20,31,0.10);
+  --shadow-pop: 0 12px 32px -8px rgba(91,79,233,0.35);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-ink-50);
+  color: var(--color-ink-800);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-ink-200);
+  border-radius: 999px;
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.94) translateY(6px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.animate-pop { animation: pop-in 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fade-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@keyframes confetti-fall {
+  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(120px) rotate(360deg); opacity: 0; }
+}
